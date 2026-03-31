@@ -1,0 +1,57 @@
+services:
+  odoo-init:
+    image: ghcr.io/novadronetec/odoo-ocb18:18
+    command: odoo -d ${DB_NAME} -i base --without-demo=all --load-language=es_ES -l es_ES --stop-after-init
+    environment:
+      DB_HOST: odoo-db
+      DB_PORT: "5432"
+      DB_USER: odoo
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      ADMIN_PASSWD: ${ADMIN_PASSWD}
+    volumes:
+      - odoo_data:/var/lib/odoo
+    depends_on:
+      odoo-db:
+        condition: service_healthy
+    restart: "no"
+
+  odoo:
+    image: ghcr.io/novadronetec/odoo-ocb18:18
+    ports:
+      - 8069
+    environment:
+      DB_HOST: odoo-db
+      DB_PORT: "5432"
+      DB_USER: odoo
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      ADMIN_PASSWD: ${ADMIN_PASSWD}
+      WORKERS: "2"
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - odoo_addons:/mnt/extra-addons
+    depends_on:
+      odoo-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  odoo-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - odoo_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+
+volumes:
+  odoo_data:
+  odoo_addons:
+  odoo_db:

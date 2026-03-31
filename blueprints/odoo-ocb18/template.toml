@@ -1,0 +1,29 @@
+[variables]
+main_domain = "${domain}"
+db_name = "odoo"
+db_password = "${password:32}"
+admin_passwd = "${password:24}"
+
+[config]
+env = [
+  "DB_NAME=${db_name}",
+  "DB_PASSWORD=${db_password}",
+  "ADMIN_PASSWD=${admin_passwd}"
+]
+
+[[config.domains]]
+serviceName = "odoo"
+port = 8069
+host = "${main_domain}"
+
+[[config.mounts]]
+name = "odoo_data"
+mountPath = "/var/lib/odoo"
+
+[[config.mounts]]
+name = "odoo_addons"
+mountPath = "/mnt/extra-addons"
+
+[[config.mounts]]
+name = "odoo_db"
+mountPath = "/var/lib/postgresql/data"
