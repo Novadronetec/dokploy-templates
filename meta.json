@@ -6785,7 +6785,7 @@
     "name": "Odoo 18 OCB",
     "version": "18",
     "description": "Odoo 18 Community Edition (OCA Community Build) con 54 módulos OCA de localización española (l10n-es, AEAT, VeriFACTU).",
-    "logo": "odoo.png",
+    "logo": "okailab.png",
     "links": {
       "github": "https://github.com/OCA/OCB",
       "website": "https://odoo.com/",
@@ -6797,7 +6797,8 @@
       "accounting",
       "business",
       "spain",
-      "l10n-es"
+      "l10n-es",
+      "okai-lab"
     ]
   }
 ]
