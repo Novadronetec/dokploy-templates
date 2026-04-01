@@ -1,0 +1,38 @@
+[variables]
+main_domain = "${domain}"
+db_name = "wordpress"
+db_user = "wordpress"
+db_password = "${password:32}"
+db_root_password = "${password:32}"
+service_name = "wordpress-ols"
+
+[config]
+env = [
+  "SERVICE_NAME=${service_name}",
+  "DOMAIN=${main_domain}",
+  "DB_NAME=${db_name}",
+  "DB_USER=${db_user}",
+  "DB_PASSWORD=${db_password}",
+  "DB_ROOT_PASSWORD=${db_root_password}"
+]
+
+[[config.domains]]
+serviceName = "wordpress"
+port = 8088
+host = "${main_domain}"
+
+[[config.mounts]]
+name = "wp_data"
+mountPath = "/var/www/vhosts/localhost/html"
+
+[[config.mounts]]
+name = "ols_logs"
+mountPath = "/usr/local/lsws/logs"
+
+[[config.mounts]]
+name = "db_data"
+mountPath = "/var/lib/mysql"
+
+[[config.mounts]]
+name = "redis_data"
+mountPath = "/data"

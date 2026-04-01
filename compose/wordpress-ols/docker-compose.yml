@@ -1,0 +1,97 @@
+services:
+  wordpress:
+    image: litespeedtech/openlitespeed:latest
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Madrid
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        mkdir -p /usr/local/lsws/conf/vhosts/Example
+        printf '%s\n' \
+          'docRoot                   /var/www/vhosts/localhost/html/' \
+          'enableGzip                1' \
+          'enableIpGeo               1' \
+          'index  {' \
+          '  useServer               0' \
+          '  indexFiles              index.php, index.html' \
+          '  autoIndex               0' \
+          '}' \
+          'scripthandler  {' \
+          '  add                     lsapi:lsphp php' \
+          '}' \
+          'rewrite  {' \
+          '  enable                  1' \
+          '  autoLoadHtaccess        1' \
+          '}' \
+          'context / {' \
+          '  location                /var/www/vhosts/localhost/html/' \
+          '  allowBrowse             1' \
+          '  phpIniOverride  {' \
+          '    php_value upload_max_filesize  64M' \
+          '    php_value post_max_size        64M' \
+          '    php_value memory_limit         256M' \
+          '    php_value max_execution_time   300' \
+          '  }' \
+          '}' \
+          'accessControl  {' \
+          '  allow                   *' \
+          '}' \
+        > /usr/local/lsws/conf/vhosts/Example/vhconf.conf
+        exec /entrypoint.sh
+    volumes:
+      - wp_data:/var/www/vhosts/localhost/html
+      - ols_logs:/usr/local/lsws/logs
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.${SERVICE_NAME}-http.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${SERVICE_NAME}-http.entrypoints=web
+      - traefik.http.routers.${SERVICE_NAME}-http.middlewares=redirect-to-https@file
+      - traefik.http.routers.${SERVICE_NAME}-http.service=${SERVICE_NAME}
+      - traefik.http.routers.${SERVICE_NAME}.rule=Host(`${DOMAIN}`)
+      - traefik.http.routers.${SERVICE_NAME}.entrypoints=websecure
+      - traefik.http.routers.${SERVICE_NAME}.tls.certresolver=letsencrypt
+      - traefik.http.routers.${SERVICE_NAME}.service=${SERVICE_NAME}
+      - traefik.http.services.${SERVICE_NAME}.loadbalancer.server.port=8088
+    networks:
+      - dokploy-network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dokploy-network
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - dokploy-network
+
+volumes:
+  wp_data:
+  ols_logs:
+  db_data:
+  redis_data:
+
+networks:
+  dokploy-network:
+    external: true
