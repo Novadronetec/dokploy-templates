@@ -1,6 +1,7 @@
 services:
   wordpress:
     image: ghcr.io/novadronetec/litespeed-wordpress:latest
+    pull_policy: always
     restart: unless-stopped
     environment:
       TZ: Europe/Madrid
