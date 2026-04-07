@@ -16,10 +16,10 @@ services:
       - dokploy-network
       - internal
     depends_on:
-      db:
+      wp-db:
         condition: service_healthy
 
-  db:
+  wp-db:
     image: mariadb:11
     restart: unless-stopped
     environment:
