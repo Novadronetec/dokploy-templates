@@ -4,12 +4,11 @@ db_name = "wordpress"
 db_user = "wordpress"
 db_password = "${password:32}"
 db_root_password = "${password:32}"
-service_name = "wordpress-ols"
 
 [config]
 env = [
-  "SERVICE_NAME=${service_name}",
-  "DOMAIN=${main_domain}",
+  "WP_HOME=https://${main_domain}",
+  "DB_HOST=db",
   "DB_NAME=${db_name}",
   "DB_USER=${db_user}",
   "DB_PASSWORD=${db_password}",
@@ -18,7 +17,7 @@ env = [
 
 [[config.domains]]
 serviceName = "wordpress"
-port = 8088
+port = 80
 host = "${main_domain}"
 
 [[config.mounts]]
@@ -32,7 +31,3 @@ mountPath = "/usr/local/lsws/logs"
 [[config.mounts]]
 name = "db_data"
 mountPath = "/var/lib/mysql"
-
-[[config.mounts]]
-name = "redis_data"
-mountPath = "/data"

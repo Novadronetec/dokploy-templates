@@ -4432,6 +4432,27 @@
     ]
   },
   {
+    "id": "odoo-ocb18",
+    "name": "Odoo 18 OCB",
+    "version": "18",
+    "description": "Odoo 18 Community Edition (OCA Community Build) con 54 módulos OCA de localización española (l10n-es, AEAT, VeriFACTU).",
+    "logo": "okailab.png",
+    "links": {
+      "github": "https://github.com/OCA/OCB",
+      "website": "https://odoo.com/",
+      "docs": "https://www.odoo.com/documentation/18.0/"
+    },
+    "tags": [
+      "erp",
+      "crm",
+      "accounting",
+      "business",
+      "spain",
+      "l10n-es",
+      "okai-lab"
+    ]
+  },
+  {
     "id": "odoo_17",
     "name": "Odoo",
     "version": "17.0",
@@ -5934,6 +5955,24 @@
     ]
   },
   {
+    "id": "strapi",
+    "name": "Strapi",
+    "version": "v5.33.0",
+    "description": "Open-source headless CMS to build powerful APIs with built-in content management.",
+    "logo": "strapi.svg",
+    "links": {
+      "github": "https://github.com/strapi/strapi",
+      "discord": "https://discord.com/invite/strapi",
+      "docs": "https://docs.strapi.io",
+      "website": "https://strapi.io"
+    },
+    "tags": [
+      "headless",
+      "cms",
+      "content-management"
+    ]
+  },
+  {
     "id": "streamflow",
     "name": "StreamFlow",
     "version": "2.1",
@@ -5950,24 +5989,6 @@
       "video",
       "live-streaming",
       "media"
-    ]
-  },
-  {
-    "id": "strapi",
-    "name": "Strapi",
-    "version": "v5.33.0",
-    "description": "Open-source headless CMS to build powerful APIs with built-in content management.",
-    "logo": "strapi.svg",
-    "links": {
-      "github": "https://github.com/strapi/strapi",
-      "discord": "https://discord.com/invite/strapi",
-      "docs": "https://docs.strapi.io",
-      "website": "https://strapi.io"
-    },
-    "tags": [
-      "headless",
-      "cms",
-      "content-management"
     ]
   },
   {
@@ -6636,6 +6657,25 @@
     ]
   },
   {
+    "id": "wordpress-ols",
+    "name": "WordPress + OpenLiteSpeed",
+    "version": "latest",
+    "description": "WordPress con OpenLiteSpeed, MariaDB y Redis. Configuración automática con soporte de dominio personalizado.",
+    "logo": "okailab.png",
+    "links": {
+      "github": "https://github.com/Novadronetec/litespeed-wordpress",
+      "website": "https://wordpress.org/",
+      "docs": "https://wordpress.org/documentation/"
+    },
+    "tags": [
+      "wordpress",
+      "cms",
+      "litespeed",
+      "php",
+      "okai-lab"
+    ]
+  },
+  {
     "id": "wuzapi",
     "name": "WuzAPI",
     "version": "v1.0.0",
@@ -6778,27 +6818,6 @@
       "openid-connect",
       "saml",
       "multi-tenant"
-    ]
-  },
-  {
-    "id": "odoo-ocb18",
-    "name": "Odoo 18 OCB",
-    "version": "18",
-    "description": "Odoo 18 Community Edition (OCA Community Build) con 54 módulos OCA de localización española (l10n-es, AEAT, VeriFACTU).",
-    "logo": "okailab.png",
-    "links": {
-      "github": "https://github.com/OCA/OCB",
-      "website": "https://odoo.com/",
-      "docs": "https://www.odoo.com/documentation/18.0/"
-    },
-    "tags": [
-      "erp",
-      "crm",
-      "accounting",
-      "business",
-      "spain",
-      "l10n-es",
-      "okai-lab"
     ]
   }
 ]
